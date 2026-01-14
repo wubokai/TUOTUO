@@ -1,148 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Echo Bot - 尊享引导页</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/common.css">
-    <style>
-        /* --- 头部布局精准还原 --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 6%;
-            border-bottom: 5px solid transparent;
-            border-image: linear-gradient(90deg, transparent, #1a3c34, #d4af37, #1a3c34, transparent) 1;
-            position: relative;
-            z-index: 10;
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-text {
-            font-size: 1rem;
-            opacity: 0.8;
-            letter-spacing: 1.5px;
-            margin-right: 40px; /* 文字与按钮的间距 */
-            color: var(--text-main);
-        }
-
-        /* 还原按钮样式及悬停效果 */
-        .btn-about {
-            text-decoration: none;
-            font-style: italic;
-            border: 1.5px solid var(--text-dark);
-            padding: 6px 25px;
-            border-radius: 40px;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-            transition: all 0.4s ease; /* 丝滑过渡 */
-        }
-
-        .btn-about:hover {
-            background: var(--text-dark);
-            color: #ffffff !important; /* 悬停时变白 */
-        }
-
-        #shardsContainer {
-            position: fixed; /* 固定在后台 */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* 关键：隐藏超出范围的碎片 */
-            z-index: 0;       /* 确保在背景层 */
-            pointer-events: none; /* 确保碎片不会遮挡鼠标点击按钮 */
-        }
-
-
-        /* --- 主体内容样式 --- */
-        main {
-            height: calc(100vh - 88px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-bottom: 6vh;
-        }
-        h1 {
-            font-size: 8.5rem;
-            font-style: italic;
-            color: var(--text-dark);
-            margin-bottom: 25px;
-            background: linear-gradient(120deg, #1a3c34 30%, #5d8b7f 50%, #1a3c34 70%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200%;
-            animation: shine 10s linear infinite;
-        }
-        @keyframes shine { to { background-position: 200% center; } }
-
-        .description { font-size: 1.65rem; line-height: 1.9; margin-bottom: 60px; font-weight: 300; }
-
-        .btn-login {
-            text-decoration: none;
-            font-style: italic;
-            padding: 22px 100px;
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #122b25 0%, #2c5e55 100%);
-            color: #e0f7ea;
-            border-radius: 100px;
-            transition: all 0.5s;
-            display: inline-block;
-        }
-        .btn-login:hover { transform: translateY(-8px); box-shadow: 0 40px 80px rgba(0,0,0,0.2); }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TUOTUO / 一只小驼驼</title>
+  <meta name="description" content="一只小驼驼（TUOTUO）是 BNB Chain 上的社区用途代币，用作 Discord 音乐频道的奖励与权限机制：点歌、身份组、排行榜。" />
+  <style>
+    :root { --bg:#0b0f1a; --card:#121a2b; --text:#e8eefc; --muted:#aab6d6; --accent:#7cf0c5; }
+    body{margin:0;background:linear-gradient(180deg,#0b0f1a,#0a1224);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;}
+    .wrap{max-width:900px;margin:0 auto;padding:32px 16px;}
+    .card{background:rgba(18,26,43,.85);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;margin:14px 0;}
+    .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+    .logo{width:44px;height:44px;border-radius:12px;background:#fff;display:inline-flex;align-items:center;justify-content:center;overflow:hidden}
+    .logo img{width:32px;height:32px}
+    h1{font-size:24px;margin:0}
+    .muted{color:var(--muted);line-height:1.6}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(124,240,197,.12);border:1px solid rgba(124,240,197,.35);color:var(--accent);font-size:12px}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:12px;background:rgba(124,240,197,.16);border:1px solid rgba(124,240,197,.45);color:var(--text)}
+    .btn:hover{background:rgba(124,240,197,.22)}
+    ul{margin:10px 0 0 18px}
+  </style>
 </head>
 <body>
-<div class="luxury-background"></div>
-<div class="gold-shards" id="shardsContainer"></div>
-
-<header>
-    <a href="index.html" class="logo-container" style="text-decoration: none;">
-        <svg class="neon-logo-svg" viewBox="0 0 100 100">
-            <defs><linearGradient id="neonGrad"><stop offset="0%" style="stop-color:#4fc3f7"/><stop offset="100%" style="stop-color:#7c4dff"/></linearGradient></defs>
-            <circle cx="50" cy="50" r="45" stroke="url(#neonGrad)" stroke-width="3" fill="none"/>
-            <path d="M 10 50 L 28 50 Q 32 50 35 40 L 42 20 L 48 80 L 55 30 L 62 60 Q 65 50 70 50 L 90 50" stroke="url(#neonGrad)" stroke-width="4" fill="none"/>
-        </svg>
-        <span>Echo Bot</span>
-    </a>
-
-    <nav class="nav-container">
-        <span class="nav-text">稳定、简单、为社区而生</span>
-        <a href="about.html" class="btn-about">了解 Echo Bot</a>
-    </nav>
-</header>
-
-<main>
-    <h1>Echo Bot</h1>
-    <div class="description">
-        <p>专为更好的音频体验打造的 Discord 音乐播放器</p>
-        <p>让每个社区都充满音乐的节奏</p>
-        <p><strong>稳定流畅 · 轻松控制 · 温和体验</strong></p>
+  <div class="wrap">
+    <div class="card">
+      <div class="row">
+        <div class="logo">
+          <img src="https://raw.githubusercontent.com/wubokai/TUOTUO/main/logo.svg" alt="TUOTUO logo" />
+        </div>
+        <div>
+          <h1>一只小驼驼（TUOTUO）</h1>
+          <div class="muted">BNB Chain 社区用途代币 · 用于 Discord 音乐频道的奖励与权限机制</div>
+        </div>
+        <div style="margin-left:auto" class="pill">Utility / Community</div>
+      </div>
     </div>
-    <a href="/v1/auth/discord/login" class="btn-login">登录到 Discord</a>
-</main>
 
-<script>
-    const container = document.getElementById('shardsContainer');
+    <div class="grid">
+      <div class="card">
+        <h2 style="margin:0 0 8px 0;font-size:16px">它用来做什么？</h2>
+        <div class="muted">
+          TUOTUO 用作 Discord 音乐播放频道的社区积分与权限凭证，覆盖：
+          <ul>
+            <li>点歌（Request）</li>
+            <li>身份组（Roles）</li>
+            <li>排行榜（Leaderboard）</li>
+          </ul>
+        </div>
+      </div>
 
-    if (container) {
-        const count = 40; // 碎片数量
-        for (let i = 0; i < count; i++) {
-            const shard = document.createElement('div');
-            shard.className = 'shard';
-            shard.style.left = `${Math.random() * 100}%`;
-            shard.style.animationDuration = `${15 + Math.random() * 20}s`;
-            shard.style.animationDelay = `${Math.random() * -20}s`;
-            container.appendChild(shard);
-        }
-    }
-</script>
+      <div class="card">
+        <h2 style="margin:0 0 8px 0;font-size:16px">如何获得？</h2>
+        <div class="muted">
+          通过参与频道活动获得：
+          <ul>
+            <li>听歌时长奖励（Listening Time）</li>
+            <li>每日签到（Daily Check-in）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 8px 0;font-size:16px">官方链接</h2>
+      <div class="muted">
+        <div>GitHub：<a href="https://github.com/wubokai/TUOTUO" target="_blank" rel="noreferrer">https://github.com/wubokai/TUOTUO</a></div>
+        <div>Discord（请替换为服务器邀请链接）：<code>https://discord.gg/xxxxxx</code></div>
+        <div>Bot 授权（可选）：<a href="https://discord.com/oauth2/authorize?client_id=1436311474237607976&permissions=70506220178432&integration_type=0&scope=bot+applications.commands" target="_blank" rel="noreferrer">OAuth2 Authorize</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 8px 0;font-size:16px">链上信息</h2>
+      <div class="muted">
+        <div>Network：BNB Smart Chain</div>
+        <div>Token Contract：<code>0x245b47d3493D66e2b51BB6E30867962AE59fb3e0</code></div>
+        <div class="muted" style="margin-top:10px">
+          说明：TUOTUO 为社区用途代币，用于 Discord 频道内的积分/权限体系，不承诺任何投资回报。
+        </div>
+      </div>
+    </div>
+
+    <div class="card muted">
+      Logo 下载：<a href="https://raw.githubusercontent.com/wubokai/TUOTUO/main/logo.svg" target="_blank" rel="noreferrer">logo.svg</a>
+    </div>
+  </div>
 </body>
 </html>
